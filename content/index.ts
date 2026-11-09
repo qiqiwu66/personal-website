@@ -53,7 +53,16 @@ export const sections: Section[] = [
         subtitle: "Biweekly, work on things you love",
         detail: {
           description: "A biweekly gathering to work on things you love but struggle to make time for.",
-          images: ["/images/gathering/cozy-sundays/1.jpeg"],
+          images: [
+            "/images/gathering/cozy-sundays/1.jpeg",
+            "/images/gathering/cozy-sundays/2.jpeg",
+            "/images/gathering/cozy-sundays/3.jpeg",
+            "/images/gathering/cozy-sundays/4.webp",
+            "/images/gathering/cozy-sundays/5.webp",
+            "/images/gathering/cozy-sundays/6.webp",
+            "/images/gathering/cozy-sundays/7.webp",
+            "/images/gathering/cozy-sundays/8.webp",
+          ],
         },
       },
       {
@@ -84,7 +93,12 @@ export const sections: Section[] = [
       },
       {
         title: "Capture the flag",
-        detail: {},
+        detail: {
+          images: [
+            "/images/gathering/capture-the-flag/1.jpg",
+            "/images/gathering/capture-the-flag/2.jpg",
+          ],
+        },
       },
       {
         title: "Discussions on how to gather people",
@@ -105,7 +119,12 @@ export const sections: Section[] = [
       },
       {
         title: "Writing letters to family & friends",
-        detail: {},
+        detail: {
+          images: [
+            "/images/gathering/writing-letters/1.jpeg",
+            "/images/gathering/writing-letters/2.jpeg",
+          ],
+        },
       },
       {
         title: "Discussions on the future of design",
@@ -136,7 +155,15 @@ export const sections: Section[] = [
       },
       {
         title: "Bento swap picnic",
-        detail: {},
+        detail: {
+          images: [
+            "/images/gathering/bento/1.jpeg",
+            "/images/gathering/bento/2.jpeg",
+            "/images/gathering/bento/3.jpeg",
+            "/images/gathering/bento/4.jpeg",
+            "/images/gathering/bento/5.jpeg",
+          ],
+        },
       },
       {
         title: "Build a giant newsprint city",
@@ -292,39 +319,12 @@ export const sections: Section[] = [
   {
     slug: "people-watching",
     label: "Observing people",
-    contentType: "list",
-    items: [
-      {
-        title: "Man reading a physical map on the L train",
-        description: "He turned it three times. Got off at Lorimer.",
-        year: "Nov 2024",
-      },
-      {
-        title: "Two elderly women doing crosswords side by side",
-        description: "Central Park bench, every Thursday 11am",
-        year: "Oct 2024",
-      },
-      {
-        title: "Kid teaching her dad to skateboard",
-        description: "She was extremely patient.",
-        year: "Sep 2024",
-      },
-      {
-        title: "Guy eating a full meal at a bus stop",
-        description: "Tupperware, fork, napkin. Very organized.",
-        year: "Aug 2024",
-      },
-      {
-        title: "Woman arguing with a pigeon",
-        description: "She won.",
-        year: "Jul 2024",
-      },
-      {
-        title: "Couple doing the NYT crossword in silence",
-        description: "They finished. Neither looked up.",
-        year: "Jun 2024",
-      },
-    ],
+    contentType: "gallery",
+    natural: true,
+    items: Array.from({ length: 38 }, (_, i) => ({
+      src: `/images/peoplewatching/${i + 1}.jpeg`,
+      caption: "",
+    })),
   },
   {
     slug: "photography-travel",
