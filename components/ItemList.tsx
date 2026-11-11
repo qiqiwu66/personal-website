@@ -7,13 +7,13 @@ export function ItemList({ items }: { items: ListItem[] }) {
         const inner = (
           <>
             <div className="flex items-baseline gap-3">
-              <span className="text-sm text-gray-900">{item.title}</span>
+              <span className="text-sm text-stone-900">{item.title}</span>
               {item.year && (
-                <span className="text-xs text-gray-400 shrink-0">{item.year}</span>
+                <span className="text-xs text-stone-400 shrink-0">{item.year}</span>
               )}
             </div>
             {item.description && (
-              <p className="text-sm text-gray-500 mt-0.5 leading-relaxed">
+              <p className="text-sm text-stone-500 mt-0.5 leading-relaxed">
                 {item.description}
               </p>
             )}

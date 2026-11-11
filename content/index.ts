@@ -54,22 +54,15 @@ export const sections: Section[] = [
         detail: {
           description: "A biweekly gathering to work on things you love but struggle to make time for.",
           images: [
-            "/images/gathering/cozy-sundays/1.jpeg",
-            "/images/gathering/cozy-sundays/2.jpeg",
-            "/images/gathering/cozy-sundays/3.jpeg",
-            "/images/gathering/cozy-sundays/4.webp",
-            "/images/gathering/cozy-sundays/5.webp",
-            "/images/gathering/cozy-sundays/6.webp",
-            "/images/gathering/cozy-sundays/7.webp",
+            "/images/gathering/cozy-sundays/1.jpg",
+            "/images/gathering/cozy-sundays/2.jpg",
+            "/images/gathering/cozy-sundays/3.jpg",
+            "/images/gathering/cozy-sundays/4.png",
+            "/images/gathering/cozy-sundays/5.jpg",
+            "/images/gathering/cozy-sundays/6.jpg",
+            "/images/gathering/cozy-sundays/7.jpeg",
             "/images/gathering/cozy-sundays/8.webp",
           ],
-        },
-      },
-      {
-        title: "Reading club",
-        subtitle: "Weekly, with friends",
-        detail: {
-          description: "A weekly reading club with friends.",
         },
       },
       {
@@ -88,16 +81,10 @@ export const sections: Section[] = [
         },
       },
       {
-        title: "No phone Saturdays",
-        detail: {},
-      },
-      {
-        title: "Capture the flag",
+        title: "Reading club",
+        subtitle: "Weekly, with friends",
         detail: {
-          images: [
-            "/images/gathering/capture-the-flag/1.jpg",
-            "/images/gathering/capture-the-flag/2.jpg",
-          ],
+          description: "A weekly reading club with friends.",
         },
       },
       {
@@ -107,83 +94,10 @@ export const sections: Section[] = [
         },
       },
       {
-        title: "Making flower bouquets",
+        title: "Design workshops & discussions",
         detail: {
           images: [
-            "/images/gathering/flower/1.jpeg",
-            "/images/gathering/flower/2.jpeg",
-            "/images/gathering/flower/3.jpg",
-            "/images/gathering/flower/4.jpeg",
-          ],
-        },
-      },
-      {
-        title: "Writing letters to family & friends",
-        detail: {
-          images: [
-            "/images/gathering/writing-letters/1.jpeg",
-            "/images/gathering/writing-letters/2.jpeg",
-          ],
-        },
-      },
-      {
-        title: "Discussions on the future of design",
-        detail: {
-          images: ["/images/gathering/design-discussions.jpeg"],
-        },
-      },
-      {
-        title: "Making silly cookies",
-        detail: {
-          images: [
-            "/images/gathering/silly-cookies/1.jpeg",
-            "/images/gathering/silly-cookies/2.jpeg",
-            "/images/gathering/silly-cookies/3.jpeg",
-            "/images/gathering/silly-cookies/4.jpeg",
-          ],
-        },
-      },
-      {
-        title: "Crab night",
-        detail: {
-          images: [
-            "/images/gathering/crab-night/1.jpeg",
-            "/images/gathering/crab-night/2.jpeg",
-            "/images/gathering/crab-night/3.jpeg",
-          ],
-        },
-      },
-      {
-        title: "Bento swap picnic",
-        detail: {
-          images: [
-            "/images/gathering/bento/1.jpeg",
-            "/images/gathering/bento/2.jpeg",
-            "/images/gathering/bento/3.jpeg",
-            "/images/gathering/bento/4.jpeg",
-            "/images/gathering/bento/5.jpeg",
-          ],
-        },
-      },
-      {
-        title: "Build a giant newsprint city",
-        detail: {
-          images: ["/images/gathering/newsprint.jpeg"],
-        },
-      },
-      {
-        title: "Make Valentine's day cards",
-        detail: {
-          images: [
-            "/images/gathering/valentines/1.jpeg",
-            "/images/gathering/valentines/2.jpeg",
-          ],
-        },
-      },
-      {
-        title: "Design hackathon",
-        detail: {
-          images: [
+            "/images/gathering/design-discussions.jpeg",
             "/images/gathering/hackathon/1.jpg",
             "/images/gathering/hackathon/2.jpg",
           ],
@@ -197,54 +111,21 @@ export const sections: Section[] = [
     contentType: "detail-list",
     items: [
       {
-        title: "What changed your mind recently?",
-        subtitle: "40 strangers, the High Line",
-        year: "2024",
+        title: "Sticky note questions in public spaces",
         detail: {
-          description:
-            "Asked 40 strangers at the High Line over three Saturdays in October. The most common answer: something small.",
-          bodyText:
-            "A man said he used to hate jazz. A woman changed her mind about her mother. Someone reconsidered a job offer they'd already turned down. One person said the question itself changed their mind about something.",
+          images: Array.from({ length: 16 }, (_, i) => `/images/questions/sticky-questions/${i + 1}.jpeg`),
         },
       },
       {
-        title: "What do you do when you can't sleep?",
-        subtitle: "Late night diner, East Village",
-        year: "2024",
+        title: "What's a thought you've had about someone but never told them?",
         detail: {
-          description: "Late night diner, East Village. I stayed until 2am asking everyone who came in.",
-          bodyText:
-            "Walk to the kitchen. Count backwards. Watch nature documentaries. Lie there and accept it. One person said they always call their sister, wherever she is in the world.",
+          images: Array.from({ length: 7 }, (_, i) => `/images/questions/thought-you-had/${i + 1}.jpeg`),
         },
       },
       {
-        title: "What would you do if you weren't afraid?",
-        subtitle: "Prospect Park bench, summer",
-        year: "2023",
+        title: "NYC participatory experiments",
         detail: {
-          description: "Prospect Park, summer. I sat on a bench with a sign and waited.",
-          bodyText:
-            "Move to a different city. Tell someone the truth. Quit and try the thing. Rest. The last one surprised me the most.",
-        },
-      },
-      {
-        title: "What did you learn from a stranger?",
-        subtitle: "Three airports, layover project",
-        year: "2023",
-        detail: {
-          description: "Three airports, a layover project. Asked everyone waiting at gates.",
-          bodyText:
-            "That garlic belongs in everything. That you should always carry a pen. That grief is strange and you have to let it be strange. One man said: be careful who you become when you're tired.",
-        },
-      },
-      {
-        title: "What are you looking forward to?",
-        subtitle: "Canal Street platform",
-        year: "2022",
-        detail: {
-          description: "Subway platform, Canal Street. The train was always delayed.",
-          bodyText:
-            "Friday. Fall. The person I'm meeting. Getting home. Something I haven't thought of yet.",
+          images: Array.from({ length: 5 }, (_, i) => `/images/questions/nyc-public/${i + 1}.jpeg`),
         },
       },
     ],
@@ -318,7 +199,7 @@ export const sections: Section[] = [
   },
   {
     slug: "people-watching",
-    label: "Observing people",
+    label: "Photographing people",
     contentType: "gallery",
     natural: true,
     items: Array.from({ length: 38 }, (_, i) => ({
@@ -328,18 +209,13 @@ export const sections: Section[] = [
   },
   {
     slug: "photography-travel",
-    label: "Photography & travel",
+    label: "Photographing the world",
     contentType: "gallery",
-    items: [
-      { src: "/images/travel/01.jpg", caption: "Tokyo, rainy season, 2024" },
-      { src: "/images/travel/02.jpg", caption: "Oaxaca market, early morning, 2023" },
-      { src: "/images/travel/03.jpg", caption: "Lisbon, Alfama, afternoon light, 2023" },
-      { src: "/images/travel/04.jpg", caption: "Hudson Valley, peak fall, 2023" },
-      { src: "/images/travel/05.jpg", caption: "Marrakech medina, 2022" },
-      { src: "/images/travel/06.jpg", caption: "Brooklyn Bridge Park, January 2024" },
-      { src: "/images/travel/07.jpg", caption: "Seoul street food, 2022" },
-      { src: "/images/travel/08.jpg", caption: "Upstate New York, winter, 2024" },
-    ],
+    natural: true,
+    items: Array.from({ length: 23 }, (_, i) => ({
+      src: `/images/travel/${i + 1}.jpeg`,
+      caption: "",
+    })),
   },
   {
     slug: "painting-surfaces",
@@ -368,49 +244,46 @@ export const sections: Section[] = [
     slug: "making-things-hands",
     label: "Making things with my hands",
     contentType: "gallery",
+    natural: true,
     items: [
-      { src: "/images/making/01.jpg", caption: "Ceramic mug, wheel-thrown, 2024" },
-      { src: "/images/making/02.jpg", caption: "Woven wall hanging, natural dyes, 2024" },
-      { src: "/images/making/03.jpg", caption: "Sourdough bread, long ferment, 2023" },
-      { src: "/images/making/04.jpg", caption: "Macramé plant holder, 2023" },
-      { src: "/images/making/05.jpg", caption: "Patchwork quilt, in progress, 2024" },
-      { src: "/images/making/06.jpg", caption: "Pressed flower frame, garden finds, 2022" },
+      { src: "/images/making/1.jpeg", caption: "" },
+      { src: "/images/making/2.jpeg", caption: "" },
+      { src: "/images/making/3.jpeg", caption: "" },
+      { src: "/images/making/4.jpeg", caption: "" },
+      { src: "/images/making/5.jpeg", caption: "" },
+      { src: "/images/making/6.5.jpeg", caption: "" },
+      { src: "/images/making/7.jpeg", caption: "" },
+      { src: "/images/making/8.jpeg", caption: "" },
+      { src: "/images/making/9.jpeg", caption: "" },
+      { src: "/images/making/10.jpeg", caption: "" },
+      { src: "/images/making/11.jpeg", caption: "" },
+      { src: "/images/making/12.jpeg", caption: "" },
+      { src: "/images/making/13.jpeg", caption: "" },
+      { src: "/images/making/15.jpeg", caption: "" },
+      { src: "/images/making/14.jpeg", caption: "" },
     ],
   },
   {
     slug: "my-life",
     label: "My life",
-    contentType: "list",
+    contentType: "gallery",
+    natural: true,
     items: [
-      {
-        title: "Currently reading",
-        description: "Braiding Sweetgrass — Robin Wall Kimmerer",
-      },
-      {
-        title: "Currently listening to",
-        description: "Mk.gee, Sudan Archives, old Fiona Apple",
-      },
-      {
-        title: "Currently obsessed with",
-        description: "Fermenting things. Kimchi, hot sauce, kombucha.",
-      },
-      {
-        title: "Recent win",
-        description: "Finally got a sourdough starter that consistently rises.",
-      },
-      {
-        title: "Recent failure",
-        description: "Tried to grow tomatoes on a north-facing balcony. Very sad tomatoes.",
-      },
-      {
-        title: "Places I want to go",
-        description: "Oaxaca again, Vietnam, somewhere with good mountains",
-      },
-      {
-        title: "Things I believe",
-        description:
-          "Strangers are mostly interesting. Doing things badly is fine. Food tastes better outside.",
-      },
+      { src: "/images/life/1.jpg", caption: "Me & my family" },
+      { src: "/images/life/2.jpg", caption: "Sunset in Jordan" },
+      { src: "/images/life/3.jpg", caption: "Half ironman" },
+      { src: "/images/life/4.jpg", caption: "Our washing machine" },
+      { src: "/images/life/5.jpg", caption: "Me & my brothers" },
+      { src: "/images/life/6.jpg", caption: "Improv classes" },
+      { src: "/images/life/7.jpg", caption: "Growing cucumbers on my fire escape" },
+      { src: "/images/life/8.jpg", caption: "Hiking 100 miles in Scotland" },
+      { src: "/images/life/9.jpg", caption: "Buzzing my head" },
+      { src: "/images/life/10.jpg", caption: "Teaching my brother ballet in a parking lot" },
+      { src: "/images/life/11.jpg", caption: "Cooking with friends" },
+      { src: "/images/life/12.jpg", caption: "Graduation shenanigans" },
+      { src: "/images/life/13.jpg", caption: "Me & my brothers, yet again" },
+      { src: "/images/life/14.jpg", caption: "Turkey trot half marathon" },
+      { src: "/images/life/15.jpg", caption: "Me & my family, floating in water yet again" },
     ],
   },
 ]

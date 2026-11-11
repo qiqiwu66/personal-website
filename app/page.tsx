@@ -6,7 +6,7 @@ export default function Home() {
   const home = sections.find((s) => s.slug === "")!
 
   return (
-    <div className="py-10 px-8 md:py-14 md:px-12 max-w-2xl">
+    <div className="p-6 max-w-2xl">
       {home.contentType === "gallery" ? (
         <Gallery items={home.items} />
       ) : (

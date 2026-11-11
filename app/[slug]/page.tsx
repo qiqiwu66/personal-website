@@ -26,14 +26,14 @@ export default async function SectionPage({
 
   if (section.contentType === "gallery" && section.natural) {
     return (
-      <div className="py-10 px-8 md:py-14 md:px-12">
+      <div className="p-6">
         <Gallery items={section.items} natural />
       </div>
     )
   }
 
   return (
-    <div className="py-10 px-8 md:py-14 md:px-12 max-w-2xl">
+    <div className="p-6 max-w-2xl">
       {section.contentType === "gallery" ? (
         <Gallery items={section.items} />
       ) : (
