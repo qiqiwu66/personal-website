@@ -45,6 +45,11 @@ body {
     line-height: 1.6;
     color: #756e63;
   }
+  .text-body-muted {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #756e63;
+  }
   .text-caption {
     font-size: 0.8125rem;
     line-height: 1.4;

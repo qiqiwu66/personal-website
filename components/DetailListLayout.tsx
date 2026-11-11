@@ -74,7 +74,12 @@ function DetailView({ item }: { item: DetailItem }) {
               })()
             : detail.intro}
           {detail.bodyText && (
-            <><br />{detail.bodyTextBold
+            <><br />{detail.bodyTextLink
+              ? (() => {
+                  const parts = detail.bodyText!.split(detail.bodyTextLink.text)
+                  return <>{parts[0]}<a href={detail.bodyTextLink.href} target="_blank" rel="noopener noreferrer" className="underline hover:text-stone-900">{detail.bodyTextLink.text}</a>{parts[1]}</>
+                })()
+              : detail.bodyTextBold
               ? (() => {
                   const parts = detail.bodyText!.split(detail.bodyTextBold)
                   return <>{parts[0]}<strong>{detail.bodyTextBold}</strong>{parts[1]}</>

@@ -14,6 +14,7 @@ export type DetailContent = {
   description?: string
   bodyText?: string
   bodyTextBold?: string
+  bodyTextLink?: { text: string; href: string }
   images?: string[]
   imageCaptions?: string[]
   intro?: string
@@ -34,20 +35,6 @@ export type Section =
 
 export const sections: Section[] = [
   {
-    slug: "",
-    label: "Home",
-    contentType: "list",
-    items: [
-      {
-        title: "Alana Wu",
-        description:
-          "I gather people, ask questions in public, make random things, watch strangers, travel with a camera, paint surfaces, and build with my hands. This is where I keep it all.",
-      },
-      { title: "Brooklyn, NY" },
-      { title: "qiqiwu66@gmail.com", href: "mailto:qiqiwu66@gmail.com" },
-    ],
-  },
-  {
     slug: "gathering-people",
     label: "Gathering people",
     contentType: "detail-list",
@@ -59,6 +46,8 @@ export const sections: Section[] = [
           description: "A biweekly gathering to work on things you love but struggle to make time for",
           intro: "I host Cozy Sundays, a biweekly gathering to work on the things you love but struggle to make time for.",
           introLink: { text: "Cozy Sundays", href: "https://luma.com/cozy-sundays" },
+          bodyText: "Cozy Sundays is a Socratica node.",
+          bodyTextLink: { text: "Socratica", href: "https://socratica.info/" },
           images: [
             "/images/gathering/cozy-sundays/1.jpg",
             "/images/gathering/cozy-sundays/2.jpg",
