@@ -9,7 +9,7 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <nav className="shrink-0 md:w-64 md:h-screen md:sticky md:top-0 md:overflow-y-auto md:border-r md:border-stone-100 flex flex-col py-6 px-3">
+    <nav className="shrink-0 md:w-64 md:h-screen md:sticky md:top-0 md:overflow-y-auto md:border-r md:border-stone-200 flex flex-col py-6 px-3">
       <div className="mb-4 px-2">
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-70 transition-opacity">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -19,11 +19,9 @@ export function Sidebar() {
       </div>
 
       <ul className="flex flex-row flex-wrap gap-x-4 gap-y-1 md:flex-col md:gap-x-0 md:gap-y-0">
-        {sections.map((section) => {
-          const href = section.slug ? `/${section.slug}` : "/"
-          const isActive = section.slug
-            ? pathname === href
-            : pathname === "/"
+        {sections.filter((s) => s.slug !== "").map((section) => {
+          const href = `/${section.slug}`
+          const isActive = pathname === href
 
           return (
             <li key={section.slug}>
@@ -32,8 +30,8 @@ export function Sidebar() {
                 className={cn(
                   "block text-sm font-medium leading-snug px-2 py-1.5 rounded-[var(--radius)]",
                   isActive
-                    ? "bg-stone-100 text-stone-900"
-                    : "text-stone-400 hover:bg-stone-50 hover:text-stone-900"
+                    ? "bg-amber-900/10 text-stone-900"
+                    : "text-stone-400 hover:bg-amber-900/[0.06] hover:text-stone-900"
                 )}
               >
                 {section.label}

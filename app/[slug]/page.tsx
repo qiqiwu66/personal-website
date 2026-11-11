@@ -27,7 +27,7 @@ export default async function SectionPage({
   if (section.contentType === "gallery" && section.natural) {
     return (
       <div className="p-6">
-        <Gallery items={section.items} natural />
+        <Gallery items={section.items} natural intro={section.intro} />
       </div>
     )
   }

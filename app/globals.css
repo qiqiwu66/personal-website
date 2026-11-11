@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f4;
-  --foreground: #1c1a17;
+  --background: #fcf8ee;
+  --foreground: #1b1914;
   --radius: 8px;
 }
 
@@ -27,4 +27,28 @@ html,
 body {
   height: 100%;
   overscroll-behavior: none;
+}
+
+@layer utilities {
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #423e36;
+  }
+  .text-small {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #423e36;
+  }
+  .text-small-muted {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #756e63;
+  }
+  .text-caption {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: #756e63;
+    padding-bottom: 4px;
+  }
 }

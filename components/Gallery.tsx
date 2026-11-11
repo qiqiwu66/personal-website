@@ -53,20 +53,27 @@ function Lightbox({
           className="max-h-[90vh] max-w-full object-contain"
         />
         {item.caption && (
-          <p className="text-sm text-stone-300 text-center">{item.caption}</p>
+          <p className="text-caption text-center text-stone-300">{item.caption}</p>
         )}
       </div>
     </div>
   )
 }
 
-export function Gallery({ items, natural }: { items: GalleryItem[]; natural?: boolean }) {
+export function Gallery({ items, natural, intro }: { items: GalleryItem[]; natural?: boolean; intro?: string }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   if (natural) {
     const columns = splitColumnsWithIndex(items, 3)
     return (
       <>
+        {intro && (
+          <div className="mb-6">
+            {intro.split("\n").map((line, i) => (
+              <p key={i} className={i > 0 ? "text-small-muted" : "text-body"}>{line}</p>
+            ))}
+          </div>
+        )}
         <div className="flex gap-3">
           {columns.map((col, ci) => (
             <div key={ci} className="flex-1 flex flex-col gap-3">
@@ -82,7 +89,7 @@ export function Gallery({ items, natural }: { items: GalleryItem[]; natural?: bo
                     }}
                   />
                   {item.caption && (
-                    <p className="text-sm text-stone-500 text-center leading-snug">{item.caption}</p>
+                    <p className="text-caption text-center">{item.caption}</p>
                   )}
                 </div>
               ))}
@@ -119,7 +126,7 @@ export function Gallery({ items, natural }: { items: GalleryItem[]; natural?: bo
               )}
             </div>
             {item.caption && (
-              <p className="text-xs text-stone-500 text-center leading-relaxed">{item.caption}</p>
+              <p className="text-caption text-center">{item.caption}</p>
             )}
           </div>
         ))}

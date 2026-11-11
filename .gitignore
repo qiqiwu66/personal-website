@@ -40,6 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# compression manifest
+scripts/.compress-manifest.json
+
 # source photo folders (copied to public/images/)
 /gathering/
 /life/
