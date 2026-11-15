@@ -53,25 +53,34 @@ function Lightbox({
           className="max-h-[90vh] max-w-full object-contain"
         />
         {item.caption && (
-          <p className="text-caption text-center text-stone-300">{item.caption}</p>
+          <p className="text-caption text-center text-white">{item.caption}</p>
         )}
       </div>
     </div>
   )
 }
 
-export function Gallery({ items, natural, intro }: { items: GalleryItem[]; natural?: boolean; intro?: string }) {
+export function Gallery({ items, natural, intro, introItems }: { items: GalleryItem[]; natural?: boolean; intro?: string; introItems?: string[] }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   if (natural) {
     const columns = splitColumnsWithIndex(items, 3)
     return (
       <>
-        {intro && (
+        {(intro || introItems) && (
           <div className="mb-6">
-            {intro.split("\n").map((line, i) => (
-              <p key={i} className={i > 0 ? "text-small-muted" : "text-body"}>{line}</p>
-            ))}
+            {intro && <p className="text-body mb-2">{intro}</p>}
+            {introItems && (
+              <div className="flex gap-12">
+                {[introItems.slice(0, Math.ceil(introItems.length / 2)), introItems.slice(Math.ceil(introItems.length / 2))].map((col, ci) => (
+                  <ul key={ci} className="space-y-0.5">
+                    {col.map((item, i) => (
+                      <li key={i} className="text-small-muted">– {item}</li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+            )}
           </div>
         )}
         <div className="flex gap-3">

@@ -101,6 +101,17 @@ function DetailView({ item }: { item: DetailItem }) {
             : detail.bodyText}
         </p>
       )}
+      {detail.links && detail.links.length > 0 && (
+        <ul className="mb-5 space-y-1">
+          {detail.links.map((link, i) => (
+            <li key={i}>
+              <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-body underline hover:text-stone-900">
+                {link.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
       {images.length > 0 && (
         <div className="mb-5">
           {imageColumns ? (

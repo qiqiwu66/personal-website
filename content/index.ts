@@ -15,6 +15,7 @@ export type DetailContent = {
   bodyText?: string
   bodyTextBold?: string
   bodyTextLink?: { text: string; href: string }
+  links?: Array<{ text: string; href: string }>
   images?: string[]
   imageCaptions?: string[]
   intro?: string
@@ -29,7 +30,7 @@ export type DetailItem = {
 }
 
 export type Section =
-  | { slug: string; label: string; contentType: "gallery"; items: GalleryItem[]; natural?: boolean; intro?: string }
+  | { slug: string; label: string; contentType: "gallery"; items: GalleryItem[]; natural?: boolean; intro?: string; introItems?: string[] }
   | { slug: string; label: string; contentType: "list"; items: ListItem[] }
   | { slug: string; label: string; contentType: "detail-list"; items: DetailItem[] }
 
@@ -105,18 +106,15 @@ export const sections: Section[] = [
         },
       },
       {
-        title: "Discussions on how to gather people",
-        detail: {
-          intro: "Building community is hard, no one teaches you how to do this in school. I ran discussions to help NYC community builders learn from one another.",
-          images: ["/images/gathering/gathering-discussion.jpg"],
-        },
-      },
-      {
         title: "No phone Saturdays",
         detail: {
           intro: "Organizing days to be free from our phones, and be fully present in the world.",
           bodyText: "I don't have photos of these because I don't have my phone.",
           bodyTextBold: "I don't have my phone.",
+          links: [
+            { text: "Observations from a 5 hr walk in Astoria", href: "https://alanawu.substack.com/p/observations-from-a-walk-in-astoria" },
+            { text: "Observations from folks who participated", href: "https://docs.google.com/document/d/1yUzQsjZuyFdwjcT2euHxSOyzyZKlsRr9Svk91gMsiiw/edit?usp=sharing" },
+          ],
         },
       },
       {
@@ -129,6 +127,13 @@ export const sections: Section[] = [
             "/images/gathering/flower/3.jpg",
             "/images/gathering/flower/4.jpeg",
           ],
+        },
+      },
+      {
+        title: "Discussions on how to gather people",
+        detail: {
+          intro: "Building community is hard, no one teaches you how to do this in school. I ran discussions to help NYC community builders learn from one another.",
+          images: ["/images/gathering/gathering-discussion.jpg"],
         },
       },
       {
@@ -358,8 +363,8 @@ export const sections: Section[] = [
       { src: "/images/making/11.jpeg", caption: "" },
       { src: "/images/making/12.jpeg", caption: "" },
       { src: "/images/making/13.jpeg", caption: "" },
-      { src: "/images/making/14.jpeg", caption: "" },
       { src: "/images/making/15.jpeg", caption: "" },
+      { src: "/images/making/14.jpeg", caption: "" },
     ],
   },
   {
@@ -391,6 +396,23 @@ export const sections: Section[] = [
     label: "Living life",
     contentType: "gallery",
     natural: true,
+    intro: "Some things that I love:",
+    introItems: [
+      "people",
+      "doing things for the sake of doing them",
+      "biking through the city & singing out loud",
+      "closing my eyes to really taste something",
+      "dancing",
+      "writing letters to my future self",
+      "literally every single color",
+      "asking hypothetical questions",
+      "growing vegetables",
+      "painting random objects",
+      "doing cartwheels",
+      "anything tactile",
+      "my family",
+      "my friends",
+    ],
     items: [
       { src: "/images/life/1.jpg", caption: "Me & my family" },
       { src: "/images/life/2.jpg", caption: "Sunset in Jordan" },
