@@ -16,6 +16,7 @@ export type DetailContent = {
   bodyTextBold?: string
   bodyTextLink?: { text: string; href: string }
   links?: Array<{ text: string; href: string }>
+  video?: string
   images?: string[]
   imageCaptions?: string[]
   intro?: string
@@ -88,6 +89,25 @@ export const sections: Section[] = [
         },
       },
       {
+        title: "No phone Saturdays",
+        detail: {
+          intro: "Organizing days to be free from our phones, and be fully present in the world.",
+          bodyText: "I don't have photos of these because I don't have my phone.",
+          bodyTextBold: "I don't have my phone.",
+          links: [
+            { text: "Observations from a 5 hr walk in Astoria", href: "https://alanawu.substack.com/p/observations-from-a-walk-in-astoria" },
+            { text: "Observations from folks who participated", href: "https://docs.google.com/document/d/1yUzQsjZuyFdwjcT2euHxSOyzyZKlsRr9Svk91gMsiiw/edit?usp=sharing" },
+          ],
+        },
+      },
+      {
+        title: "Database of 3rd spaces in NYC",
+        detail: {
+          intro: "Finding space is the hardest part of hosting gatherings in NYC. I compiled a database of third spaces across the city.",
+          introLink: { text: "database of third spaces", href: "https://airtable.com/appDdU9R7V0yrqVYI/shr3HLlUFaG7Eu1ZF/tblcsG08injICQqSi" },
+        },
+      },
+      {
         title: "Design workshops & discussions",
         detail: {
           intro: "At Carnegie Mellon, I was the co-president of the User Experience Association (UXA). We hosted hackathons, career workshops, discussions on the future of design, panel talks, creative coworking sessions, and more.",
@@ -102,18 +122,6 @@ export const sections: Section[] = [
             "/images/gathering/design/7.jpg",
             "/images/gathering/design/9.jpg",
             "/images/gathering/design/8.jpg",
-          ],
-        },
-      },
-      {
-        title: "No phone Saturdays",
-        detail: {
-          intro: "Organizing days to be free from our phones, and be fully present in the world.",
-          bodyText: "I don't have photos of these because I don't have my phone.",
-          bodyTextBold: "I don't have my phone.",
-          links: [
-            { text: "Observations from a 5 hr walk in Astoria", href: "https://alanawu.substack.com/p/observations-from-a-walk-in-astoria" },
-            { text: "Observations from folks who participated", href: "https://docs.google.com/document/d/1yUzQsjZuyFdwjcT2euHxSOyzyZKlsRr9Svk91gMsiiw/edit?usp=sharing" },
           ],
         },
       },
@@ -252,6 +260,14 @@ export const sections: Section[] = [
           ],
         },
       },
+      {
+        title: "Foods with associated memories",
+        detail: {
+          intro: "I asked people \"for you, what's a food that has a memory associated with it?\" and sketched out each response.",
+          images: ["/images/questions/food-memories/1.jpeg"],
+          video: "/videos/food-memories.mov",
+        },
+      },
     ],
   },
   {
@@ -275,73 +291,6 @@ export const sections: Section[] = [
       src: `/images/travel/${i + 1}.jpeg`,
       caption: "",
     })),
-  },
-  {
-    slug: "make-random-things",
-    label: "Making random things",
-    contentType: "detail-list",
-    items: [
-      {
-        title: "Paper lamp shade",
-        subtitle: "Newspaper + starch, three attempts",
-        year: "2024",
-        detail: {
-          images: ["/images/random/01.jpg"],
-          description:
-            "Newspaper and liquid starch, layered over an inflated balloon. Let dry, pop the balloon. Took three tries to get the shape right.",
-        },
-      },
-      {
-        title: "Seed packets",
-        subtitle: "Balcony garden, paper envelopes",
-        year: "2024",
-        detail: {
-          images: ["/images/random/02.jpg"],
-          description:
-            "Collected seeds from whatever grew on the balcony that summer. Made little folded paper envelopes, labeled them in pencil. Gave most of them away.",
-        },
-      },
-      {
-        title: "Hand-bound sketchbook",
-        subtitle: "Coptic binding, found paper",
-        year: "2023",
-        detail: {
-          images: ["/images/random/03.jpg"],
-          description:
-            "Coptic binding, found paper, watercolor cover. The spine is a little crooked. I use it anyway.",
-        },
-      },
-      {
-        title: "Beeswax candles",
-        subtitle: "Local beekeeper, first attempt",
-        year: "2023",
-        detail: {
-          images: ["/images/random/04.jpg"],
-          description:
-            "Got the wax from a local beekeeper at the farmer's market. First attempt. The scent is unbelievably good.",
-        },
-      },
-      {
-        title: "Marbled paper",
-        subtitle: "Shaving cream method, 40 sheets",
-        year: "2023",
-        detail: {
-          images: ["/images/random/05.jpg"],
-          description:
-            "Shaving cream method. Made forty sheets over a weekend. I still don't understand why some patterns work and others don't.",
-        },
-      },
-      {
-        title: "Block print tote",
-        subtitle: "Linocut, canvas, dark green ink",
-        year: "2022",
-        detail: {
-          images: ["/images/random/06.jpg"],
-          description:
-            "Carved a linocut of a plant I can't identify. Printed on canvas totes in dark green ink. Made eight, kept one.",
-        },
-      },
-    ],
   },
   {
     slug: "making-things-hands",

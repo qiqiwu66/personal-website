@@ -138,6 +138,22 @@ function DetailView({ item }: { item: DetailItem }) {
                 </div>
               ))}
             </div>
+          ) : images.length === 1 && detail.video ? (
+            <div className="flex gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={images[0]}
+                alt=""
+                className="flex-1 min-w-0 w-0 h-auto cursor-pointer"
+                onClick={() => setLightboxIndex(0)}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none" }}
+              />
+              <video
+                src={detail.video}
+                controls
+                className="flex-1 min-w-0 w-0 self-stretch"
+              />
+            </div>
           ) : (
             <div className="flex flex-col gap-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -159,6 +175,11 @@ function DetailView({ item }: { item: DetailItem }) {
       )}
       {lightboxIndex !== null && (
         <Lightbox images={images} startIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} />
+      )}
+      {detail.video && images.length !== 1 && (
+        <div className="mb-5">
+          <video src={detail.video} controls className="w-full h-auto" />
+        </div>
       )}
     </div>
   )
