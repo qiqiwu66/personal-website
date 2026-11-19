@@ -27,6 +27,7 @@ export type DetailItem = {
   title: string
   subtitle?: string
   year?: string
+  titleHref?: string
   detail: DetailContent
 }
 
@@ -86,6 +87,22 @@ export const sections: Section[] = [
           intro: "I host a weekly reading club with friends. The amount of reading vs conversing varies by day.",
           bodyText: "I keep forgetting to take photos of us. We're too busy reading. Here's some bread I made for us instead.",
           images: ["/images/gathering/reading-club/1.jpeg"],
+        },
+      },
+      {
+        title: "Cozy fall painting",
+        detail: {
+          intro: "I hosted a cozy fall painting night, because why not.",
+          introLink: { text: "cozy fall painting", href: "https://luma.com/c0bd1gpj" },
+          images: [
+            "/images/gathering/cozy-painting/1.jpeg",
+            "/images/gathering/cozy-painting/2.jpeg",
+            "/images/gathering/cozy-painting/4.jpeg",
+            "/images/gathering/cozy-painting/3.jpeg",
+            "/images/gathering/cozy-painting/7.jpeg",
+            "/images/gathering/cozy-painting/5.jpeg",
+            "/images/gathering/cozy-painting/6.jpeg",
+          ],
         },
       },
       {
@@ -361,6 +378,8 @@ export const sections: Section[] = [
       "anything tactile",
       "my family",
       "my friends",
+      "bringing people together",
+      "hosting random silly events",
     ],
     items: [
       { src: "/images/life/1.jpg", caption: "Me & my family" },

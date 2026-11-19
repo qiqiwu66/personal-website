@@ -69,7 +69,9 @@ export function Gallery({ items, natural, intro, introItems }: { items: GalleryI
       <>
         {(intro || introItems) && (
           <div className="mb-6">
-            {intro && <p className="text-body mb-2">{intro}</p>}
+            {intro && intro.split("\n").map((line, i) => (
+              <p key={i} className={i > 0 ? "text-small-muted italic mb-2" : "text-body mb-1"}>{line}</p>
+            ))}
             {introItems && (
               <div className="flex gap-12">
                 {[introItems.slice(0, Math.ceil(introItems.length / 2)), introItems.slice(Math.ceil(introItems.length / 2))].map((col, ci) => (

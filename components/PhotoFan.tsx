@@ -1,58 +1,33 @@
-"use client"
+const CARD_H        = 290
+const CARD_H_CENTER = 380
 
-import { useState } from "react"
-
-const DEFAULT_TRANSFORMS = [
-  { rotate: -9, x: -6, y: 6 },
-  { rotate: -2, x: 0, y: 0 },
-  { rotate: 6,  x: 8, y: 4 },
-]
-
-const HOVER_TRANSFORMS = [
-  { rotate: -22, x: -210, y: 0 },
-  { rotate:   0, x:    0, y: -18 },
-  { rotate:  22, x:  210, y: 0 },
-]
-
-const CARD_W = 296
-const CARD_H = 392
-const CARD_R = 10
+const GRAIN = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")`
+const MASK = "radial-gradient(ellipse 88% 88% at center, black 55%, transparent 100%)"
 
 export function PhotoFan({ photos }: { photos: string[] }) {
-  const [hovered, setHovered] = useState(false)
-
+  const mid = Math.floor(photos.length / 2)
   return (
-    <div
-      className="relative flex-shrink-0"
-      style={{
-        height: CARD_H + 30,
-        width: CARD_W,
-        transform: hovered ? "translateX(-180px)" : "translateX(0)",
-        transition: "transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1)",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {photos.map((src, i) => {
-        const t = hovered ? HOVER_TRANSFORMS[i] : DEFAULT_TRANSFORMS[i]
+    <>
+      {/* SVG filter for torn/rough paper edges */}
+      <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}>
+        <defs>
+          <filter id="torn-paper" x="-6%" y="-6%" width="112%" height="112%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.032" numOctaves="4" seed="5" result="noise" />
+            <feDisplacementMap in="SourceAlpha" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            <feComposite in="SourceGraphic" in2="displaced" operator="in" />
+          </filter>
+        </defs>
+      </svg>
 
-        return (
+      <div className="flex gap-8 items-center">
+        {photos.map((src, i) => (
           <div
             key={i}
             style={{
-              position: "absolute",
-              bottom: 0,
-              left: "50%",
-              width: CARD_W,
-              height: CARD_H,
-              marginLeft: -CARD_W / 2,
-              zIndex: photos.length - i,
-              transform: `rotate(${t.rotate}deg) translateX(${t.x}px) translateY(${t.y}px)`,
-              transformOrigin: "bottom center",
-              transition: "transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1)",
-              borderRadius: CARD_R,
-              overflow: "hidden",
-              boxShadow: "0 4px 14px rgba(0,0,0,0.13)",
+              position: "relative",
+              flexShrink: 0,
+              maskImage: MASK,
+              WebkitMaskImage: MASK,
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -60,15 +35,27 @@ export function PhotoFan({ photos }: { photos: string[] }) {
               src={src}
               alt=""
               style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
+                height: i === mid ? CARD_H_CENTER : CARD_H,
+                width: "auto",
                 display: "block",
+                filter: "url(#torn-paper)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+                mixBlendMode: "overlay",
+                opacity: 0.22,
+                backgroundImage: GRAIN,
+                backgroundRepeat: "repeat",
+                backgroundSize: "180px 180px",
               }}
             />
           </div>
-        )
-      })}
-    </div>
+        ))}
+      </div>
+    </>
   )
 }

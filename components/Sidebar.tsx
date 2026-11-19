@@ -9,7 +9,7 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <nav className="shrink-0 md:w-64 md:h-screen md:sticky md:top-0 md:overflow-y-auto md:border-r md:border-stone-200 flex flex-col py-6 px-3">
+    <nav className="shrink-0 md:w-64 md:h-screen md:sticky md:top-0 md:overflow-y-auto md:border-r md:border-stone-200 flex flex-col py-6 px-3 relative z-[2]">
       <div className="mb-4 px-2">
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-70 transition-opacity">
           {/* eslint-disable-next-line @next/next/no-img-element */}
