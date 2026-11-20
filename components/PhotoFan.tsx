@@ -13,9 +13,9 @@ function Bike({ onDone }: { onDone: () => void }) {
     <div
       style={{
         position: "absolute",
-        top: 12,
+        top: 52,
         left: "-42px",
-        animation: "bike-h-move 2.1s linear forwards",
+        animation: "bike-h-move 3.2s linear forwards",
       }}
       onAnimationEnd={onDone}
     >
@@ -27,11 +27,20 @@ function Bike({ onDone }: { onDone: () => void }) {
       strokeWidth="1.4"
       strokeLinecap="round"
       strokeLinejoin="round"
-      style={{ animation: "bike-flip 2.1s ease-in-out forwards", display: "block", stroke: "var(--bike-color)" }}
+      style={{ animation: "bike-flip 3.2s ease-in-out forwards", display: "block", stroke: "var(--bike-color)" }}
     >
-      {/* wheels */}
-      <circle cx="6"  cy="17" r="6" />
-      <circle cx="28" cy="17" r="6" />
+      {/* rear wheel with spokes */}
+      <g style={{ transformOrigin: "6px 17px", animation: "wheel-spin 3.2s linear forwards" }}>
+        <circle cx="6" cy="17" r="6" />
+        <line x1="6" y1="11" x2="6" y2="23" />
+        <line x1="0" y1="17" x2="12" y2="17" />
+      </g>
+      {/* front wheel with spokes */}
+      <g style={{ transformOrigin: "28px 17px", animation: "wheel-spin 3.2s linear forwards" }}>
+        <circle cx="28" cy="17" r="6" />
+        <line x1="28" y1="11" x2="28" y2="23" />
+        <line x1="22" y1="17" x2="34" y2="17" />
+      </g>
       {/* main frame triangle */}
       <path d="M13 9 L15 17 L25 10 Z" />
       {/* rear triangle */}
@@ -74,7 +83,7 @@ export function PhotoFan({ photos }: { photos: string[] }) {
           <div
             key={i}
             style={{ position: "relative", flexShrink: 1, minWidth: 0 }}
-            onMouseEnter={i === 0 ? () => { setBikeKey(k => k + 1); setBikeActive(true) } : undefined}
+            onMouseEnter={i === 0 ? () => { if (!bikeActive) { setBikeKey(k => k + 1); setBikeActive(true) } } : undefined}
           >
             {/* masked photo */}
             <div style={{ position: "relative", maskImage: MASK, WebkitMaskImage: MASK }}>
@@ -109,7 +118,7 @@ export function PhotoFan({ photos }: { photos: string[] }) {
             {i === 0 && bikeActive && (
               <div style={{
                 position: "absolute",
-                top: -40,   /* extends 40px above the photo */
+                top: -80,
                 left: 0,
                 right: 0,
                 bottom: 0,

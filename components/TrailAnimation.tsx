@@ -41,9 +41,11 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
       ]
     }
 
-    const paintAt = (x: number, y: number, pos: number) => {
+    const paintAt = (x: number, y: number, pos: number, speed = 0) => {
       const [r, g, b] = lerp(pos)
       const style = brushRef.current
+      // faster speed → thinner stroke; clamp speed effect to 0–1
+      const speedScale = Math.max(0.55, 1 - Math.min(speed, 600) / 900)
 
       if (style === "pencil") {
         for (let i = 0; i < 4; i++) {
@@ -79,11 +81,10 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
         }
 
       } else if (style === "brush") {
-        // core mark — 50% narrower
         for (let i = 0; i < 5; i++) {
-          const ox     = (Math.random() - 0.5) * 9
-          const oy     = (Math.random() - 0.5) * 9
-          const radius = 5 + Math.random() * 7
+          const ox     = (Math.random() - 0.5) * 18 * speedScale
+          const oy     = (Math.random() - 0.5) * 18 * speedScale
+          const radius = (10 + Math.random() * 14) * speedScale
           const alpha  = 0.018 + Math.random() * 0.022
           const grad = ctx.createRadialGradient(x + ox * 0.2, y + oy * 0.2, 0, x + ox, y + oy, radius)
           grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.1})`)
@@ -95,36 +96,30 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
           ctx.fillStyle = grad
           ctx.fill()
         }
-        // tendril bleed — elongated spikes radiating outward unevenly
-        const numTendrils = 4 + Math.floor(Math.random() * 3)
-        for (let i = 0; i < numTendrils; i++) {
+        // bleed layer — ink spreading outward through rice paper (not speed-scaled)
+        for (let i = 0; i < 7; i++) {
           const angle  = Math.random() * Math.PI * 2
-          const start  = 3  + Math.random() * 7
-          const length = 10 + Math.random() * 22
-          const width  = 1.5 + Math.random() * 2.5
-          const alpha  = 0.012 + Math.random() * 0.016
-          // gradient anchored at base of tendril, fades to tip
-          const gx = x + Math.cos(angle) * start
-          const gy = y + Math.sin(angle) * start
-          const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, length)
-          grad.addColorStop(0,   `rgba(${r},${g},${b},${alpha})`)
-          grad.addColorStop(0.55,`rgba(${r},${g},${b},${alpha * 0.45})`)
-          grad.addColorStop(1,   `rgba(${r},${g},${b},0)`)
-          // narrow ellipse oriented along the angle
-          const cx = x + Math.cos(angle) * (start + length / 2)
-          const cy = y + Math.sin(angle) * (start + length / 2)
+          const spread = 11 + Math.random() * 30
+          const ox     = Math.cos(angle) * spread
+          const oy     = Math.sin(angle) * spread
+          const radius = 17 + Math.random() * 33
+          const alpha  = 0.012 + Math.random() * 0.02
+          const grad = ctx.createRadialGradient(x + ox * 0.35, y + oy * 0.35, 0, x + ox, y + oy, radius)
+          grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.2})`)
+          grad.addColorStop(0.45, `rgba(${r},${g},${b},${alpha})`)
+          grad.addColorStop(0.75, `rgba(${r},${g},${b},${alpha * 0.65})`)
+          grad.addColorStop(1,    `rgba(${r},${g},${b},0)`)
           ctx.beginPath()
-          ctx.ellipse(cx, cy, length / 2, width / 2, angle, 0, Math.PI * 2)
+          ctx.ellipse(x + ox, y + oy, radius, radius * (0.4 + Math.random() * 0.5), Math.random() * Math.PI, 0, Math.PI * 2)
           ctx.fillStyle = grad
           ctx.fill()
         }
 
       } else if (style === "wide") {
-        // wide core marks
         for (let i = 0; i < 6; i++) {
-          const ox     = (Math.random() - 0.5) * 60
-          const oy     = (Math.random() - 0.5) * 60
-          const radius = 40 + Math.random() * 60
+          const ox     = (Math.random() - 0.5) * 30 * speedScale
+          const oy     = (Math.random() - 0.5) * 30 * speedScale
+          const radius = (20 + Math.random() * 30) * speedScale
           const alpha  = 0.01 + Math.random() * 0.014
           const grad = ctx.createRadialGradient(x + ox * 0.2, y + oy * 0.2, 0, x + ox, y + oy, radius)
           grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.1})`)
@@ -136,13 +131,12 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
           ctx.fillStyle = grad
           ctx.fill()
         }
-        // heavy bleed that travels far
         for (let i = 0; i < 10; i++) {
           const angle  = Math.random() * Math.PI * 2
-          const spread = 60 + Math.random() * 140
+          const spread = (30 + Math.random() * 70) * speedScale
           const ox     = Math.cos(angle) * spread
           const oy     = Math.sin(angle) * spread
-          const radius = 70 + Math.random() * 110
+          const radius = (35 + Math.random() * 55) * speedScale
           const alpha  = 0.007 + Math.random() * 0.011
           const grad = ctx.createRadialGradient(x + ox * 0.35, y + oy * 0.35, 0, x + ox, y + oy, radius)
           grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.15})`)
@@ -159,19 +153,23 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
 
     const stepSize = () => brushRef.current === "pencil" ? 2 : brushRef.current === "wide" ? 10 : 6
 
+    let lastTime = -1
     const onMouseMove = (e: MouseEvent) => {
       const x = e.clientX, y = e.clientY
+      const now = e.timeStamp
       if (lastX !== -1) {
         const dist  = Math.hypot(x - lastX, y - lastY)
+        const dt    = lastTime > 0 ? Math.max(1, now - lastTime) : 16
+        const speed = dist / dt * 1000  // px/s
         const step  = stepSize()
         const steps = Math.max(1, Math.floor(dist / step))
         for (let i = 0; i <= steps; i++) {
           const t = i / steps
-          paintAt(lastX + (x - lastX) * t, lastY + (y - lastY) * t, colorPos + (dist / 300) * t)
+          paintAt(lastX + (x - lastX) * t, lastY + (y - lastY) * t, colorPos + (dist / 300) * t, speed)
         }
         colorPos += dist / 300
       }
-      lastX = x; lastY = y
+      lastX = x; lastY = y; lastTime = now
     }
 
     const fade = () => {
