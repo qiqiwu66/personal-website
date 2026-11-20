@@ -2,18 +2,14 @@
 
 import { useEffect, useRef } from "react"
 
-// warm watercolor palette
-const PALETTE = [
-  [212, 168, 106],  // amber
-  [196, 132, 110],  // sienna
-  [168, 197, 160],  // sage
-  [164, 184, 212],  // dusty blue
-  [196, 180, 212],  // lavender
-  [220, 170, 160],  // dusty rose
-]
+export type BrushStyle = "pencil" | "marker" | "brush" | "wide"
 
-export function TrailAnimation() {
+export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; brushStyle: BrushStyle }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const brushRef  = useRef(brushStyle)
+  const palRef    = useRef(palette)
+  useEffect(() => { brushRef.current  = brushStyle }, [brushStyle])
+  useEffect(() => { palRef.current    = palette    }, [palette])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -27,16 +23,17 @@ export function TrailAnimation() {
       canvas.height = window.innerHeight
     })
 
-    let colorPos = 0  // float; advances through palette continuously
+    let colorPos = 0
     let lastX = -1, lastY = -1
     let rafId: number
 
-    const lerpColor = (pos: number) => {
-      const len = PALETTE.length
+    const lerp = (pos: number) => {
+      const pal = palRef.current
+      const len = pal.length
       const idx = Math.floor(pos % len)
       const t   = pos % 1
-      const c0  = PALETTE[idx % len]
-      const c1  = PALETTE[(idx + 1) % len]
+      const c0  = pal[idx % len]
+      const c1  = pal[(idx + 1) % len]
       return [
         Math.round(c0[0] + (c1[0] - c0[0]) * t),
         Math.round(c0[1] + (c1[1] - c0[1]) * t),
@@ -45,90 +42,138 @@ export function TrailAnimation() {
     }
 
     const paintAt = (x: number, y: number, pos: number) => {
-      const [r, g, b] = lerpColor(pos)
+      const [r, g, b] = lerp(pos)
+      const style = brushRef.current
 
-      // core mark — where the brush actually touches
-      for (let i = 0; i < 5; i++) {
-        const ox     = (Math.random() - 0.5) * 18
-        const oy     = (Math.random() - 0.5) * 18
-        const radius = 10 + Math.random() * 14
-        const alpha  = 0.018 + Math.random() * 0.022
+      if (style === "pencil") {
+        for (let i = 0; i < 4; i++) {
+          const ox = (Math.random() - 0.5) * 1.5
+          const oy = (Math.random() - 0.5) * 1.5
+          ctx.beginPath()
+          ctx.ellipse(
+            x + ox, y + oy,
+            0.7 + Math.random() * 0.6,
+            0.4 + Math.random() * 0.5,
+            Math.random() * Math.PI,
+            0, Math.PI * 2
+          )
+          ctx.fillStyle = `rgba(${r},${g},${b},${0.55 + Math.random() * 0.35})`
+          ctx.fill()
+        }
 
-        const grad = ctx.createRadialGradient(
-          x + ox * 0.2, y + oy * 0.2, 0,
-          x + ox,        y + oy,        radius
-        )
-        grad.addColorStop(0,   `rgba(${r},${g},${b},${alpha * 0.1})`)
-        grad.addColorStop(0.4, `rgba(${r},${g},${b},${alpha * 0.6})`)
-        grad.addColorStop(0.75, `rgba(${r},${g},${b},${alpha})`)
-        grad.addColorStop(1,   `rgba(${r},${g},${b},0)`)
+      } else if (style === "marker") {
+        for (let i = 0; i < 5; i++) {
+          const ox = (Math.random() - 0.5) * 10
+          const oy = (Math.random() - 0.5) * 10
+          const rw = 12 + Math.random() * 8
+          const rh = 5  + Math.random() * 4
+          const a  = 0.045 + Math.random() * 0.035
+          const grad = ctx.createRadialGradient(x + ox * 0.3, y + oy * 0.3, 0, x + ox, y + oy, rw)
+          grad.addColorStop(0,   `rgba(${r},${g},${b},${a})`)
+          grad.addColorStop(0.65,`rgba(${r},${g},${b},${a})`)
+          grad.addColorStop(1,   `rgba(${r},${g},${b},0)`)
+          ctx.beginPath()
+          ctx.ellipse(x + ox, y + oy, rw, rh, 0.25, 0, Math.PI * 2)
+          ctx.fillStyle = grad
+          ctx.fill()
+        }
 
-        ctx.beginPath()
-        ctx.ellipse(
-          x + ox, y + oy,
-          radius, radius * (0.55 + Math.random() * 0.45),
-          Math.random() * Math.PI,
-          0, Math.PI * 2
-        )
-        ctx.fillStyle = grad
-        ctx.fill()
-      }
+      } else if (style === "brush") {
+        // core mark — 50% narrower
+        for (let i = 0; i < 5; i++) {
+          const ox     = (Math.random() - 0.5) * 9
+          const oy     = (Math.random() - 0.5) * 9
+          const radius = 5 + Math.random() * 7
+          const alpha  = 0.018 + Math.random() * 0.022
+          const grad = ctx.createRadialGradient(x + ox * 0.2, y + oy * 0.2, 0, x + ox, y + oy, radius)
+          grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.1})`)
+          grad.addColorStop(0.4,  `rgba(${r},${g},${b},${alpha * 0.6})`)
+          grad.addColorStop(0.75, `rgba(${r},${g},${b},${alpha})`)
+          grad.addColorStop(1,    `rgba(${r},${g},${b},0)`)
+          ctx.beginPath()
+          ctx.ellipse(x + ox, y + oy, radius, radius * (0.55 + Math.random() * 0.45), Math.random() * Math.PI, 0, Math.PI * 2)
+          ctx.fillStyle = grad
+          ctx.fill()
+        }
+        // tendril bleed — elongated spikes radiating outward unevenly
+        const numTendrils = 4 + Math.floor(Math.random() * 3)
+        for (let i = 0; i < numTendrils; i++) {
+          const angle  = Math.random() * Math.PI * 2
+          const start  = 3  + Math.random() * 7
+          const length = 10 + Math.random() * 22
+          const width  = 1.5 + Math.random() * 2.5
+          const alpha  = 0.012 + Math.random() * 0.016
+          // gradient anchored at base of tendril, fades to tip
+          const gx = x + Math.cos(angle) * start
+          const gy = y + Math.sin(angle) * start
+          const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, length)
+          grad.addColorStop(0,   `rgba(${r},${g},${b},${alpha})`)
+          grad.addColorStop(0.55,`rgba(${r},${g},${b},${alpha * 0.45})`)
+          grad.addColorStop(1,   `rgba(${r},${g},${b},0)`)
+          // narrow ellipse oriented along the angle
+          const cx = x + Math.cos(angle) * (start + length / 2)
+          const cy = y + Math.sin(angle) * (start + length / 2)
+          ctx.beginPath()
+          ctx.ellipse(cx, cy, length / 2, width / 2, angle, 0, Math.PI * 2)
+          ctx.fillStyle = grad
+          ctx.fill()
+        }
 
-      // bleed layer — ink spreading outward through rice paper
-      for (let i = 0; i < 5; i++) {
-        const angle  = Math.random() * Math.PI * 2
-        const spread = 14 + Math.random() * 28
-        const ox     = Math.cos(angle) * spread
-        const oy     = Math.sin(angle) * spread
-        const radius = 22 + Math.random() * 36
-        const alpha  = 0.01 + Math.random() * 0.016
-
-        const grad = ctx.createRadialGradient(
-          x + ox * 0.35, y + oy * 0.35, 0,
-          x + ox,         y + oy,         radius
-        )
-        // slight edge concentration — capillary action pools pigment at bleed boundary
-        grad.addColorStop(0,   `rgba(${r},${g},${b},${alpha * 0.2})`)
-        grad.addColorStop(0.45, `rgba(${r},${g},${b},${alpha})`)
-        grad.addColorStop(0.75, `rgba(${r},${g},${b},${alpha * 0.65})`)
-        grad.addColorStop(1,   `rgba(${r},${g},${b},0)`)
-
-        ctx.beginPath()
-        ctx.ellipse(
-          x + ox, y + oy,
-          radius, radius * (0.4 + Math.random() * 0.5),
-          Math.random() * Math.PI,
-          0, Math.PI * 2
-        )
-        ctx.fillStyle = grad
-        ctx.fill()
+      } else if (style === "wide") {
+        // wide core marks
+        for (let i = 0; i < 6; i++) {
+          const ox     = (Math.random() - 0.5) * 60
+          const oy     = (Math.random() - 0.5) * 60
+          const radius = 40 + Math.random() * 60
+          const alpha  = 0.01 + Math.random() * 0.014
+          const grad = ctx.createRadialGradient(x + ox * 0.2, y + oy * 0.2, 0, x + ox, y + oy, radius)
+          grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.1})`)
+          grad.addColorStop(0.4,  `rgba(${r},${g},${b},${alpha * 0.5})`)
+          grad.addColorStop(0.75, `rgba(${r},${g},${b},${alpha})`)
+          grad.addColorStop(1,    `rgba(${r},${g},${b},0)`)
+          ctx.beginPath()
+          ctx.ellipse(x + ox, y + oy, radius, radius * (0.4 + Math.random() * 0.5), Math.random() * Math.PI, 0, Math.PI * 2)
+          ctx.fillStyle = grad
+          ctx.fill()
+        }
+        // heavy bleed that travels far
+        for (let i = 0; i < 10; i++) {
+          const angle  = Math.random() * Math.PI * 2
+          const spread = 60 + Math.random() * 140
+          const ox     = Math.cos(angle) * spread
+          const oy     = Math.sin(angle) * spread
+          const radius = 70 + Math.random() * 110
+          const alpha  = 0.007 + Math.random() * 0.011
+          const grad = ctx.createRadialGradient(x + ox * 0.35, y + oy * 0.35, 0, x + ox, y + oy, radius)
+          grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.15})`)
+          grad.addColorStop(0.4,  `rgba(${r},${g},${b},${alpha})`)
+          grad.addColorStop(0.75, `rgba(${r},${g},${b},${alpha * 0.6})`)
+          grad.addColorStop(1,    `rgba(${r},${g},${b},0)`)
+          ctx.beginPath()
+          ctx.ellipse(x + ox, y + oy, radius, radius * (0.3 + Math.random() * 0.5), Math.random() * Math.PI, 0, Math.PI * 2)
+          ctx.fillStyle = grad
+          ctx.fill()
+        }
       }
     }
+
+    const stepSize = () => brushRef.current === "pencil" ? 2 : brushRef.current === "wide" ? 10 : 6
 
     const onMouseMove = (e: MouseEvent) => {
       const x = e.clientX, y = e.clientY
-
       if (lastX !== -1) {
         const dist  = Math.hypot(x - lastX, y - lastY)
-        const steps = Math.max(1, Math.floor(dist / 6))
-
+        const step  = stepSize()
+        const steps = Math.max(1, Math.floor(dist / step))
         for (let i = 0; i <= steps; i++) {
           const t = i / steps
-          paintAt(
-            lastX + (x - lastX) * t,
-            lastY + (y - lastY) * t,
-            colorPos + (dist / 300) * t
-          )
+          paintAt(lastX + (x - lastX) * t, lastY + (y - lastY) * t, colorPos + (dist / 300) * t)
         }
-
         colorPos += dist / 300
       }
-
-      lastX = x
-      lastY = y
+      lastX = x; lastY = y
     }
 
-    // very slow fade — erases ~fully in ~90s
     const fade = () => {
       ctx.globalCompositeOperation = "destination-out"
       ctx.fillStyle = "rgba(0,0,0,0.0018)"
@@ -153,11 +198,5 @@ export function TrailAnimation() {
     }
   }, [])
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[1]"
-      aria-hidden
-    />
-  )
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[1]" aria-hidden />
 }

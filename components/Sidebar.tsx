@@ -31,7 +31,7 @@ export function Sidebar() {
                   "block text-sm font-medium leading-snug px-2 py-1.5 rounded-[var(--radius)]",
                   isActive
                     ? "bg-amber-900/10 text-stone-900"
-                    : "text-stone-400 hover:bg-amber-900/[0.06] hover:text-stone-900"
+                    : "text-stone-500 hover:bg-amber-900/[0.06] hover:text-stone-900"
                 )}
               >
                 {section.label}

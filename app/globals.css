@@ -6,6 +6,7 @@
   --color-body: #423e36;
   --color-muted: #756e63;
   --border: #e7e2d8;
+  --bike-color: #111;
   --radius: 8px;
 }
 
@@ -15,14 +16,16 @@
   --color-body: #ede0c8;
   --color-muted: #c8a070;
   --border: rgba(255, 210, 150, 0.15);
+  --bike-color: #f0e4cc;
 }
 
 [data-theme="black"] {
-  --background: #1a1210;
+  --background: #0d0a08;
   --foreground: #ede0cc;
   --color-body: #e4d8c4;
   --color-muted: #9a8c76;
   --border: rgba(255, 210, 150, 0.1);
+  --bike-color: #e8dcc8;
 }
 
 body {
@@ -54,6 +57,22 @@ body::after {
   background-size: 512px 512px;
 }
 
+@keyframes bike-h-move {
+  from { left: -42px; }
+  to   { left: calc(100% + 22px); }
+}
+
+@keyframes bike-flip {
+  0%,  36% { transform: translateY(0px)   rotate(0deg);    }
+  50%       { transform: translateY(-36px) rotate(-180deg); }
+  64%, 100% { transform: translateY(0px)   rotate(-360deg); }
+}
+
+@keyframes wheel-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(3240deg); }
+}
+
 html,
 body {
   height: 100%;
@@ -65,11 +84,11 @@ body {
 [data-theme="black"] .text-stone-900 {
   color: var(--foreground);
 }
-[data-theme="brown"] .text-stone-400 {
+[data-theme="brown"] .text-stone-500 {
   color: rgba(242, 228, 204, 0.55);
 }
-[data-theme="black"] .text-stone-400 {
-  color: rgba(237, 224, 204, 0.45);
+[data-theme="black"] .text-stone-500 {
+  color: rgba(237, 224, 204, 0.72);
 }
 [data-theme="brown"] nav,
 [data-theme="black"] nav {
