@@ -77,10 +77,6 @@ body {
 [data-theme="black"] .text-stone-500 {
   color: rgba(155, 185, 230, 0.86);
 }
-[data-theme="brown"] nav,
-[data-theme="black"] nav {
-  border-color: var(--border);
-}
 
 .detail-sidebar-item {
   background-color: transparent;

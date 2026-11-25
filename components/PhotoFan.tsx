@@ -57,40 +57,50 @@ function Bike({ onDone }: { onDone: () => void }) {
 }
 
 const ARCH_H = 420
+const mid_i = 1
 
 export function PhotoFan({ photos }: { photos: string[] }) {
   const [bikeKey,    setBikeKey]    = useState(0)
   const [bikeActive, setBikeActive] = useState(false)
 
   return (
-    <div className="flex gap-6 items-end w-full">
-      {photos.map((src, i) => (
-        <div
-          key={i}
-          style={{ position: "relative", flex: 1, minWidth: 0 }}
-          onMouseEnter={i === 0 ? () => { if (!bikeActive) { setBikeKey(k => k + 1); setBikeActive(true) } } : undefined}
-        >
-          {/* arch-masked photo */}
+    <>
+      {/* bezier arch clip — smooth vertical tangent at the join */}
+      <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}>
+        <defs>
+          <clipPath id="arch-clip" clipPathUnits="objectBoundingBox">
+            <path d="M0,1 L0,0.4 Q0,0 0.5,0 Q1,0 1,0.4 L1,1 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      <div className="flex gap-6 items-end w-full">
+        {photos.map((src, i) => (
           <div
-            style={{
-              height: ARCH_H,
-              borderRadius: "50% 50% 0 0",
-              overflow: "hidden",
-            }}
+            key={i}
+            style={{ position: "relative", flex: 1, minWidth: 0 }}
+            onMouseEnter={i === 0 ? () => { if (!bikeActive) { setBikeKey(k => k + 1); setBikeActive(true) } } : undefined}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt=""
+            {/* arch-masked photo */}
+            <div
               style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center top",
-                display: "block",
+                height: ARCH_H,
+                clipPath: "url(#arch-clip)",
               }}
-            />
-          </div>
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt=""
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: i === mid_i ? "center top" : "center 40%",
+                  display: "block",
+                }}
+              />
+            </div>
 
           {/* bike enters from behind left edge, exits right */}
           {i === 0 && bikeActive && (
@@ -109,5 +119,6 @@ export function PhotoFan({ photos }: { photos: string[] }) {
         </div>
       ))}
     </div>
+    </>
   )
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Mukta } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
 import { Sidebar } from "@/components/Sidebar"
 import { BrushCanvas } from "@/components/BrushCanvas"
 import "./globals.css"
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <BrushCanvas />
+        <Analytics />
       </body>
     </html>
   )
