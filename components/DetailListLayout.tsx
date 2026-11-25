@@ -70,14 +70,14 @@ function DetailView({ item }: { item: DetailItem }) {
           {detail.introLink
             ? (() => {
                 const parts = detail.intro!.split(detail.introLink.text)
-                return <>{parts[0]}<a href={detail.introLink.href} target="_blank" rel="noopener noreferrer" className="underline hover:text-stone-900">{detail.introLink.text}</a>{parts[1]}</>
+                return <>{parts[0]}<a href={detail.introLink.href} target="_blank" rel="noopener noreferrer" className="themed-link">{detail.introLink.text}</a>{parts[1]}</>
               })()
             : detail.intro}
           {detail.bodyText && (
             <><br />{detail.bodyTextLink
               ? (() => {
                   const parts = detail.bodyText!.split(detail.bodyTextLink.text)
-                  return <>{parts[0]}<a href={detail.bodyTextLink.href} target="_blank" rel="noopener noreferrer" className="underline hover:text-stone-900">{detail.bodyTextLink.text}</a>{parts[1]}</>
+                  return <>{parts[0]}<a href={detail.bodyTextLink.href} target="_blank" rel="noopener noreferrer" className="themed-link">{detail.bodyTextLink.text}</a>{parts[1]}</>
                 })()
               : detail.bodyTextBold
               ? (() => {
@@ -105,7 +105,7 @@ function DetailView({ item }: { item: DetailItem }) {
         <ul className="mb-5 space-y-1">
           {detail.links.map((link, i) => (
             <li key={i}>
-              <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-body underline hover:text-stone-900">
+              <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-body themed-link">
                 {link.text}
               </a>
             </li>
@@ -190,26 +190,19 @@ export function DetailListLayout({ items }: { items: DetailItem[] }) {
 
   return (
     <div className="flex">
-      <div className="w-64 shrink-0 border-r border-stone-200 p-2 sticky top-0 h-screen overflow-y-auto">
+      <div className="w-64 shrink-0 border-r p-2 sticky top-0 h-screen overflow-y-auto" style={{ borderColor: "var(--border)" }}>
         <ul>
           {items.map((item, i) => (
             <li key={i}>
               <button
-                className={cn(
-                  "text-left w-full p-3 cursor-default rounded-[var(--radius)]",
-                  i === activeIndex
-                    ? "bg-amber-900/10 text-stone-900"
-                    : "text-stone-500 hover:bg-amber-900/[0.06] hover:text-stone-900"
-                )}
+                className={cn("text-left w-full p-3 cursor-default rounded-[var(--radius)] detail-sidebar-item", i === activeIndex && "active")}
+                style={{ color: i === activeIndex ? "var(--foreground)" : "var(--color-muted)" }}
                 onMouseEnter={() => setActiveIndex(i)}
                 onClick={() => setActiveIndex(i)}
               >
                 <span className="block text-sm leading-snug">{item.title}</span>
                 {item.detail.description && (
-                  <span className={cn(
-                    "block text-sm mt-1 leading-snug",
-                    i === activeIndex ? "text-stone-500" : "text-stone-400"
-                  )}>
+                  <span className="detail-sidebar-desc block text-sm mt-1 leading-snug" style={{ color: "var(--color-muted)" }}>
                     {item.detail.description}
                   </span>
                 )}

@@ -282,12 +282,12 @@ export const sections: Section[] = [
         detail: {
           intro: "me: \"What's something that you want to do, that you're scared of?\"\nmy friend: \"A chocolate cake popup.\"\nme: \"Bet.\"\n\n3 weeks later, we sold chocolate cake in the park & drew portraits for passersby.",
           images: [
-            "/images/questions/cake-popup/5.jpeg",
-            "/images/questions/cake-popup/4.jpeg",
             "/images/questions/cake-popup/1.jpeg",
-            "/images/questions/cake-popup/6.jpeg",
             "/images/questions/cake-popup/2.jpeg",
             "/images/questions/cake-popup/3.jpeg",
+            "/images/questions/cake-popup/4.jpeg",
+            "/images/questions/cake-popup/5.jpeg",
+            "/images/questions/cake-popup/6.jpeg",
           ],
         },
       },

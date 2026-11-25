@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import { TrailAnimation, BrushStyle } from "./TrailAnimation"
 
@@ -25,12 +25,13 @@ const PALETTES: Record<Theme, number[][]> = {
     [115,  38,  18],
   ],
   black: [
-    [ 20,  60,  30],
-    [ 30,  75,  38],
-    [ 55,  18,  72],
-    [ 70,  22,  88],
-    [ 90,  15,  18],
-    [ 65,  12,  22],
+    [ 80, 120, 210],
+    [110, 140, 230],
+    [130, 100, 220],
+    [160, 130, 240],
+    [ 60,  90, 190],
+    [170, 150, 235],
+    [100, 160, 220],
   ],
 }
 
@@ -38,16 +39,25 @@ const PALETTES: Record<Theme, number[][]> = {
 const PENCIL_PALETTE: Record<Theme, number[][]> = {
   cream: [[28, 22, 16], [60, 52, 44]],
   brown: [[210, 185, 155], [230, 210, 185]],  // light warm brown / tan
-  black: [[245, 238, 218], [255, 252, 244]],
+  black: [[200, 220, 248], [220, 232, 255]],
 }
 
 const THEMES: { id: Theme; color: string; border: string }[] = [
   { id: "cream", color: "#f0e8d8", border: "#c8bfaa" },
   { id: "brown", color: "#5c2e14", border: "#5c2e14" },
-  { id: "black", color: "#0d0a08", border: "#0d0a08" },
+  { id: "black", color: "#060810", border: "#3a5080" },
 ]
 
-const BRUSH_STYLES: { id: BrushStyle; label: string; icon: React.ReactNode }[] = [
+type UIMode = "cursor" | BrushStyle
+
+const CURSOR_ICON = (
+  <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor">
+    <path d="M3.5 1.5 L3.5 12.5 L6.2 9.8 L8.6 15 L10.2 14.3 L7.8 9.1 L12 9.1 Z" />
+  </svg>
+)
+
+const TOOL_OPTIONS: { id: UIMode; label: string; icon: React.ReactNode }[] = [
+  { id: "cursor", label: "Cursor", icon: CURSOR_ICON },
   {
     id: "pencil",
     label: "Pencil",
@@ -67,7 +77,7 @@ const BRUSH_STYLES: { id: BrushStyle; label: string; icon: React.ReactNode }[] =
     ),
   },
   {
-    id: "brush",
+    id: "wide",
     label: "Brush",
     icon: (
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
@@ -77,7 +87,7 @@ const BRUSH_STYLES: { id: BrushStyle; label: string; icon: React.ReactNode }[] =
     ),
   },
   {
-    id: "wide",
+    id: "brush",
     label: "Wide brush",
     icon: (
       <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" strokeLinecap="round">
@@ -90,11 +100,12 @@ const BRUSH_STYLES: { id: BrushStyle; label: string; icon: React.ReactNode }[] =
 export function BrushCanvas() {
   const pathname = usePathname()
   const isHome = pathname === "/"
-  const [userOverride, setUserOverride] = useState<boolean | null>(null)
   const [theme, setTheme] = useState<Theme>("cream")
-  const [brushStyle, setBrushStyle] = useState<BrushStyle>("brush")
+  const [uiMode, setUiMode] = useState<UIMode>(isHome ? "wide" : "cursor")
 
-  const enabled = userOverride !== null ? userOverride : isHome
+  useEffect(() => {
+    if (!isHome) setUiMode("cursor")
+  }, [isHome])
 
   useEffect(() => {
     const root = document.documentElement
@@ -114,23 +125,33 @@ export function BrushCanvas() {
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
+  const isDrawing = uiMode !== "cursor"
+  const brushStyle = uiMode as BrushStyle
   const palette = brushStyle === "pencil" ? PENCIL_PALETTE[theme] : PALETTES[theme]
+
+  const iconColor = (id: UIMode) =>
+    theme === "black"
+      ? (uiMode === id ? "#d0dcf0" : "#6880a8")
+      : (uiMode === id ? "#1c1917" : "#6b6560")
+
+  const iconBg = (id: UIMode) =>
+    uiMode === id
+      ? (theme === "black" ? "rgba(100,140,220,0.18)" : "rgba(0,0,0,0.08)")
+      : "transparent"
 
   return (
     <>
-      {enabled && <TrailAnimation key={theme} palette={palette} brushStyle={brushStyle} />}
+      {isDrawing && <TrailAnimation key={theme} palette={palette} brushStyle={brushStyle} />}
       <div
         data-no-clear
-        className="fixed top-4 right-4 z-50 flex items-center gap-2.5 px-2.5 py-1.5 rounded-full border border-stone-300/70"
+        className="shrink-0 w-10 sticky top-0 h-screen z-50 flex flex-col items-center border-l"
         style={{
-          backgroundColor:
-            theme === "brown" ? "rgba(245, 234, 210, 0.65)" :
-            theme === "black" ? "rgba(130, 130, 128, 0.88)" :
-            "rgba(255, 255, 255, 0.88)",
+          backgroundColor: "var(--background)",
+          borderColor: "var(--border)",
         }}
       >
         {/* theme circles */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col items-center gap-2 pt-4 pb-3 w-full border-b" style={{ borderColor: "var(--border)" }}>
           {THEMES.map(({ id, color, border }) => (
             <button
               key={id}
@@ -148,50 +169,21 @@ export function BrushCanvas() {
           ))}
         </div>
 
-        <div className="w-px self-stretch bg-stone-300/60" />
-
-        {/* brush style buttons */}
-        <div className="flex items-center gap-0.5">
-          {BRUSH_STYLES.map(({ id, label, icon }) => (
+        {/* cursor + drawing tools */}
+        <div className="flex flex-col items-center gap-0.5 pt-2">
+          {TOOL_OPTIONS.map(({ id, label, icon }) => (
             <button
               key={id}
               data-no-clear
-              onClick={() => setBrushStyle(id)}
+              onClick={() => setUiMode(id)}
               title={label}
-              className="w-7 h-6 flex items-center justify-center rounded transition-colors"
-              style={{
-                color: theme === "black"
-                  ? (brushStyle === id ? "#ffffff" : "#c4c0bc")
-                  : (brushStyle === id ? "#1c1917" : "#6b6560"),
-                backgroundColor: brushStyle === id
-                  ? (theme === "black" ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.08)")
-                  : "transparent",
-              }}
+              className="w-7 h-7 flex items-center justify-center rounded transition-colors"
+              style={{ color: iconColor(id), backgroundColor: iconBg(id) }}
             >
               {icon}
             </button>
           ))}
         </div>
-
-        <div className="w-px self-stretch bg-stone-300/60" />
-
-        {/* toggle switch */}
-        <button
-          data-no-clear
-          onClick={() => setUserOverride(!enabled)}
-          title={enabled ? "Turn off brush" : "Turn on brush"}
-          className="relative w-7 h-4 rounded-full transition-colors duration-200 shrink-0 overflow-hidden"
-          style={{
-            backgroundColor: enabled
-              ? theme === "brown" ? "#7a4020" : theme === "black" ? "#3a3a38" : "#78716c"
-              : theme === "brown" ? "#c8a880" : theme === "black" ? "#c0c0bc" : "#e7e5e4",
-          }}
-        >
-          <span
-            className="absolute top-0.5 left-0.5 w-3 h-3 rounded-full bg-white transition-transform duration-200 block"
-            style={{ transform: enabled ? "translateX(12px)" : "translateX(0)" }}
-          />
-        </button>
       </div>
     </>
   )

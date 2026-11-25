@@ -20,11 +20,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${mukta.variable} h-full`}>
       <body className="h-full flex flex-col md:flex-row font-[family-name:var(--font-mukta)] antialiased overscroll-none">
-        <BrushCanvas />
         <Sidebar />
         <main className="flex-1 md:overflow-y-auto overscroll-none relative z-[2]">
           {children}
         </main>
+        <BrushCanvas />
       </body>
     </html>
   )

@@ -69,7 +69,7 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
           const oy = (Math.random() - 0.5) * 10
           const rw = 12 + Math.random() * 8
           const rh = 5  + Math.random() * 4
-          const a  = 0.045 + Math.random() * 0.035
+          const a  = 0.11 + Math.random() * 0.07
           const grad = ctx.createRadialGradient(x + ox * 0.3, y + oy * 0.3, 0, x + ox, y + oy, rw)
           grad.addColorStop(0,   `rgba(${r},${g},${b},${a})`)
           grad.addColorStop(0.65,`rgba(${r},${g},${b},${a})`)
@@ -82,9 +82,9 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
 
       } else if (style === "brush") {
         for (let i = 0; i < 5; i++) {
-          const ox     = (Math.random() - 0.5) * 18 * speedScale
-          const oy     = (Math.random() - 0.5) * 18 * speedScale
-          const radius = (10 + Math.random() * 14) * speedScale
+          const ox     = (Math.random() - 0.5) * 36 * speedScale
+          const oy     = (Math.random() - 0.5) * 36 * speedScale
+          const radius = (20 + Math.random() * 28) * speedScale
           const alpha  = 0.018 + Math.random() * 0.022
           const grad = ctx.createRadialGradient(x + ox * 0.2, y + oy * 0.2, 0, x + ox, y + oy, radius)
           grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.1})`)
@@ -96,13 +96,12 @@ export function TrailAnimation({ palette, brushStyle }: { palette: number[][]; b
           ctx.fillStyle = grad
           ctx.fill()
         }
-        // bleed layer — ink spreading outward through rice paper (not speed-scaled)
         for (let i = 0; i < 7; i++) {
           const angle  = Math.random() * Math.PI * 2
-          const spread = 11 + Math.random() * 30
+          const spread = 22 + Math.random() * 60
           const ox     = Math.cos(angle) * spread
           const oy     = Math.sin(angle) * spread
-          const radius = 17 + Math.random() * 33
+          const radius = 34 + Math.random() * 66
           const alpha  = 0.012 + Math.random() * 0.02
           const grad = ctx.createRadialGradient(x + ox * 0.35, y + oy * 0.35, 0, x + ox, y + oy, radius)
           grad.addColorStop(0,    `rgba(${r},${g},${b},${alpha * 0.2})`)
